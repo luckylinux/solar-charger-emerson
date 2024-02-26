@@ -1,0 +1,41 @@
+FROM debian:latest
+#FROM python:3.12-alpine
+#FROM alpine:latest
+RUN mkdir /opt/app
+WORKDIR /opt/app
+COPY requirements.txt requirements.txt
+#RUN apk add rrdtool
+RUN apt-get update
+RUN apt-get install -y python3 python3-pip python3-venv
+RUN apt-get install -y bash iproute2
+
+# Change Shell
+RUN chsh -s /bin/bash root
+RUN export SHELL="/bin/bash"
+RUN ln -sf /bin/bash /bin/sh
+
+# set ENV to execute startup scripts
+ENV ENV /etc/profile
+
+# Create venv
+RUN python3 -m venv venv
+
+# Set PATH Variable to include venv
+ENV PATH="/opt/app/venv/bin:$PATH"
+
+# Activate venv
+#RUN source venv/bin/activate
+
+# Install required Packages
+RUN pip install -r requirements.txt
+
+# Export Web Port
+EXPOSE 5000
+
+# Copy required Files
+#COPY . .
+COPY app/* .
+COPY README.md .
+
+# Run the Main App
+CMD ["python", "-u", "app.py"]

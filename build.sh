@@ -6,6 +6,9 @@ name=$(cat ./name.txt)
 # Mandatory Tag
 tag=$(cat ./tag.txt)
 
+# Select Dockerfile
+buildfile="Dockerfile-Debian"
+
 # Check if they are set
 if [[ ! -v name ]] || [[ ! -v tag ]]
 then
@@ -23,11 +26,11 @@ if [[ -n $(command -v podman) ]] && [[ "$engine" == "podman" ]]
 #if [[ $(command -v podman > /dev/null 2>&1) ]]
 then
     # Use Podman and ./build/ folder to build the image
-    podman build -f Dockerfile . -t $name:$tag -t $name:latest
+    podman build -f $buildfile . -t $name:$tag -t $name:latest
 elif [[ -n $(command -v docker) ]] && [[ "$engine" == "docker" ]]
 then
     # Use Docker and ./build/ folder to build the image
-    docker build -f Dockerfile . -t $name:$tag -t $name:latest
+    docker build -f $buildfile . -t $name:$tag -t $name:latest
 else
     # Error
     echo "Neither Podman nor Docker could be found and/or the specified Engine <$engine> was not valid. Aborting !"
