@@ -1,7 +1,7 @@
 # Introduction
 Solar Charger Interface to Emerson / Vertiv R48-3000e3
 
-Important: at the moment this is just a proof-of-concept. The app running inside the container does nothing for now - just an infinite loop and a Flask `Hello World` example.
+**Important: at the moment this is just a proof-of-concept. The app running inside the container does nothing for now - just an infinite loop and a Flask `Hello World` example.**
 
 # Device Setup
 Please follow the instruction in my other Github Repository in order to rename USB devices names and CAN interfaces names: 
