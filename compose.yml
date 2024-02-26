@@ -9,6 +9,7 @@ services:
     container_name: solar-charger-emerson
 
     # Run in privileged mode
+    # This is required since the container is interacting (bringing down, bringing up and reconfiguring network interfaces)
     privileged: true
 
     # Volume mounts
@@ -22,9 +23,10 @@ services:
 
     # Devices access
     devices:
-#      - /dev/grid-charger-0:/dev/grid-charger-0
-#      - /dev/grid-charger-1:/dev/grid-charger-1
-      - '/dev:/dev'
+    # It is sufficient (with Debian Bookworm Image at least) to only pass-through the required devices
+      - /dev/grid-charger-0:/dev/grid-charger-0
+      - /dev/grid-charger-1:/dev/grid-charger-1
+#      - '/dev:/dev'
 
     # Map the following ports to provide outside access (hostport:containerport)
     ports:
@@ -55,7 +57,7 @@ services:
 
     # Security Options for Docker
     security_opt:
-      - no-new-privileges:false
+      - no-new-privileges:true # !!! No space between no-new-privileges:<value> otherwise this will make podman-compose up -d fail !!!
 
     # Specify restart policy
     restart: unless-stopped
