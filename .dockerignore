@@ -1,0 +1,8 @@
+# Do not copy the following files and directories to the build context
+venv/*
+build.sh
+compose.yml
+Dockerfile
+README.Docker.md
+name.txt
+tag.txt
