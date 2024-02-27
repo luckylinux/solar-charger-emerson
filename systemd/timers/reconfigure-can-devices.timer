@@ -1,6 +1,6 @@
-# Disable for now - Script itself runs an infinite loop
+# Disabled for now - Script itself runs an infinite loop
 #[Unit]
-#Description=Recofigure vxcan Devices for Host-Container networking and using cangw to forward traffic to/from a Physical Adapter
+#Description=Recofigure CAN Physical Adapter for Container-Namespace networking
 #RefuseManualStart=no
 #RefuseManualStop=no
 #
@@ -18,7 +18,7 @@
 #OnActiveSec=5s
 #
 ## File describing job to execute
-#Unit=reconfigure-vxcan-devices.service
+#Unit=reconfigure-can-devices.service
 #
 #[Install]
 #WantedBy=timers.target

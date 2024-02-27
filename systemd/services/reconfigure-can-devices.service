@@ -1,0 +1,9 @@
+[Unit]
+Description=Recofigure CAN Physical Adapter for Container-Namespace networking
+
+[Service]
+ExecStart=/bin/bash -c '/usr/local/bin/reconfigure-can-devices.sh "start"'
+#ExecStop=/bin/bash -c '/usr/local/bin/reconfigure-can-devices.sh "stop"'
+
+[Install]
+WantedBy=default.target
