@@ -1,0 +1,24 @@
+#[Unit]
+#Description=Recofigure vxcan Devices for Host-Container networking and using cangw to forward traffic to/from a Physical Adapter
+#RefuseManualStart=no
+#RefuseManualStop=no
+#
+#[Timer]
+## Execute job if it missed a run due to machine being off
+#Persistent=true
+#
+## Set the timer accuracy to 1 second instead of the default 1 minute
+#AccuracySec=1
+#
+## Run Every Day at 20:00:00
+#OnCalendar=*-*-* 20:00:00
+#
+## Run when enabled
+#OnActiveSec=5s
+#
+## File describing job to execute
+#Unit=reconfigure-vxcan-devices.service
+#
+#[Install]
+#WantedBy=timers.target
+#

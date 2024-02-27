@@ -1,0 +1,75 @@
+version: "3.8"
+services:
+  solar-charger-emerson:
+    # To build from source, replace 'image: xxxxxxxxxxx' with 'build: .'
+    # build: .
+    image: localhost/solar-charger-emerson:latest
+
+    # Define container image
+    container_name: solar-charger-emerson
+
+    # Run in privileged mode
+    # This is required since the container is interacting (bringing down, bringing up and reconfiguring network interfaces)
+    privileged: false
+
+    # Volume mounts
+    volumes:
+      # Configuration Files
+      - ./config/battery-charger.yml:/opt/app/conf/battery-charger.yml:ro
+
+      # CAN USB Adapters mounted as volumes
+      #- /dev/usb-grid-00:
+      #- /dev/usb-grid-01:
+
+    # Devices access
+    devices:
+    # It is sufficient (with Debian Bookworm Image at least) to only pass-through the required devices
+      - /dev/usb-grid-00:/dev/usb-grid-00
+      - /dev/usb-grid-01:/dev/usb-grid-01
+#      - '/dev:/dev'
+
+    # Map the following ports to provide outside access (hostport:containerport)
+    ports:
+      - 5000:5000
+
+    # Specify podman/docker network to use
+    networks:
+      - podman
+
+    # Set networm to host mode
+    network_mode: host
+
+    # Set any environmental variables
+    environment:
+#      - NODE_ENV=production
+
+    # Specify your user ID and group ID. You can find this by running `id -u` and `id -g`
+    #  - UID=1000
+    #  - GID=1000
+
+    # Podman Rootless (https://www.redhat.com/sysadmin/files-devices-podman)
+    group_add:
+      - keep-groups
+
+    # Specify Capabilities
+    # Network access (including CANbus) requires additional permissions
+    capabilities: {CAP_NET_ADMIN,CAP_NET_RAW,CAP_NET_BIND_SERVICE}
+
+    # Security Options for Docker
+    security_opt:
+      - no-new-privileges:true # !!! No space between no-new-privileges:<value> otherwise this will make podman-compose up -d fail !!!
+
+    # Specify restart policy
+    restart: unless-stopped
+    # Configure healthchecks
+    #healthcheck:
+    #  test: ['CMD', 'node', '/app/services/healthcheck']
+    #  interval: 1m30s
+    #  timeout: 10s
+    #  retries: 3
+    #  start_period: 40s
+
+# Define all networks to be used for this container
+networks:
+  podman:
+    external: true

@@ -23,7 +23,8 @@ fi
 # Switch directory
 if [[ $distribution == "debian" ]] || [ $distribution == "ubuntu" ]]
 then
-    configfolder="/etc/containers/networks"
+#    configfolder="/etc/containers/networks"
+    configfolder="/etc/cni/net.d/"
 elif [[ $distribution == "fedora" ]]
 then
     configfolder="/etc/cnd/net.d"
@@ -37,13 +38,35 @@ fi
 networkid=$(pwgen -s 64 1)
 
 # Write to file
-tee $configfolder/$device.json <<EOF
+# Works for /etc/containers/networks on Debian/Ubuntu
+#tee $configfolder/$device.json <<EOF
+#{
+#   "cniVersion": "0.4.0",
+#   "name": "$device",
+#   "id": "$networkid",
+#   "type": "host-device",
+#   "device": "$device",
+#   "kernelpath": "/sys/class/net/$device"
+#}
+#EOF
+
+# Works for /etc/cni/net.d on Debian/Ubuntu
+# Example: https://github.com/containers/podman/discussions/10571#discussioncomment-833432
+tee $configfolder/$device.conflist <<EOF
 {
    "cniVersion": "0.4.0",
    "name": "$device",
-   "id": "$networkid",
-   "type": "host-device",
-   "device": "$device",
-   "kernelpath": "/sys/class/net/$device"
+   "plugins": [
+      {
+         "type": "host-device",
+         "device": "$device",
+         "kernelpath": "/sys/class/net/$device"
+      }
+    ]
 }
 EOF
+
+
+#   "id": "$networkid",
+#   "type": "host-device",
+#   "device": "$device",

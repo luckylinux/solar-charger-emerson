@@ -1,3 +1,24 @@
+# This does NOT appear to work
+# podman-compose and podman complain with the following error
+# Most likely the backend needs to be changed to cni insteaad of netavark
+# See here: https://github.com/containers/podman-compose/issues/500#issuecomment-1238641494
+#error: Found argument '--plugin-directory' which wasn't expected, or isn't valid in this context
+#
+#	If you tried to supply `--plugin-directory` as a value rather than a flag, use `-- --plugin-directory`
+#
+#USAGE:
+#    netavark --config <CONFIG> --rootless <ROOTLESS> --aardvark-binary <AARDVARK_BINARY>
+#
+#
+# Changing the network backend in /etc/containers/containers.conf to
+# [network]
+# network_backend = "cni"
+#
+# Also doesn't seem to help, as can-grid-00 wants for some reason to try to bring up eth1
+#
+#
+# Maybe also related to this? https://github.com/k8snetworkplumbingwg/multus-cni/issues/542
+
 version: "3.8"
 services:
   solar-charger-emerson:
@@ -10,7 +31,7 @@ services:
 
     # Run in privileged mode
     # This is required since the container is interacting (bringing down, bringing up and reconfiguring network interfaces)
-    privileged: true
+    privileged: false
 
     # Volume mounts
     volumes:
@@ -18,14 +39,14 @@ services:
       - ./config/battery-charger.yml:/opt/app/conf/battery-charger.yml:ro
 
       # CAN USB Adapters mounted as volumes
-      #- /dev/grid-charger-0:
-      #- /dev/grid-charger-1:
+      #- /dev/usb-grid-00:
+      #- /dev/usb-grid-01:
 
     # Devices access
-    devices:
-    # It is sufficient (with Debian Bookworm Image at least) to only pass-through the required devices
-      - /dev/grid-charger-0:/dev/grid-charger-0
-      - /dev/grid-charger-1:/dev/grid-charger-1
+#    devices:
+#    # It is sufficient (with Debian Bookworm Image at least) to only pass-through the required devices
+#      - /dev/usb-grid-00:/dev/usb-grid-00
+#      - /dev/usb-grid-01:/dev/usb-grid-01
 #      - '/dev:/dev'
 
     # Map the following ports to provide outside access (hostport:containerport)
@@ -34,10 +55,12 @@ services:
 
     # Specify podman/docker network to use
     networks:
-      - podman
+      - podman # Network used for IP Communication
+      - can-grid-00 # Add one line for each custom network that maps the network interfaces using host_device
+      #- can-grid-01 # Add one line for each custom network that maps the network interfaces using host_device
 
     # Set networm to host mode
-    network_mode: host
+#    network_mode: host
 
     # Set any environmental variables
     environment:
@@ -71,5 +94,12 @@ services:
 
 # Define all networks to be used for this container
 networks:
+  # Network used for IP Communication
   podman:
     external: true
+  # Add one line for each custom network that maps the network interfaces using host_device
+  can-grid-00:
+    external: true
+  #can-grid-01:
+  #  external: true
+
