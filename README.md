@@ -107,9 +107,14 @@ Run as User
 podman-compose -f docker-compose-rootless-can-or-vxcan.yml up -d
 ```
 
-Run as Root (for testing - permanent solution is a Systemd Service / OpenRC Service):
+Run as Root (for testing):
 ```
 ./bin/reconfigure-can-devices.sh
+```
+
+Run as Root (Permanent solution is a Systemd Service / OpenRC Service):
+```
+./setup_rootless_container_reconfigure_can_devices_service.sh
 ```
 
 ### vxcan using Podman / Docker Namespaces
@@ -120,9 +125,15 @@ Run as Root (for testing - permanent solution is a Systemd Service / OpenRC Serv
 podman-compose -f docker-compose-rootless-can-or-vxcan.yml up -d
 ```
 
-Run as Root (for testing - permanent solution is a Systemd Service / OpenRC Service):
+Run as Root (for testing):
 ```
 ./bin/reconfigure-vxcan-devices.sh
+```
+
+Run as Root (Permanent solution is a Systemd Service / OpenRC Service):
+```
+# For Systemd
+./setup_rootless_container_reconfigure_vxcan_devices_service.sh
 ```
 
 ### vcan using Podman / Docker Namespaces
