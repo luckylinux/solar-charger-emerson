@@ -45,14 +45,5 @@ tee $configfolder/$device.json <<EOF
    "type": "host-device",
    "device": "$device",
    "kernelpath": "/sys/class/net/$device"
-#   "plugins": [
-#      {
-#         "type": "host-device",
-#         "device": "$device",
-#      }
-#   ],
-#   "ipam_options": {
-#          "driver": "host-device"
-#     }
 }
 EOF

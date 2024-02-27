@@ -38,4 +38,6 @@ Try to implement some of the other strategies outlined in https://github.com/luc
 
 The ideal goal would be to run without needing root access.
 
-In particular, the vxcan tool seem to be promising: https://www.lagerdata.com/articles/forwarding-can-bus-traffic-to-a-docker-container-using-vxcan-on-raspberry-pi.
+In particular, the vxcan tool seem to be promising: 
+- https://www.lagerdata.com/articles/forwarding-can-bus-traffic-to-a-docker-container-using-vxcan-on-raspberry-pi.
+- https://www.systec-electronic.com/en/demo/blog/article/news-socketcan-docker-the-solution
