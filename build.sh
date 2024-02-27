@@ -6,11 +6,16 @@ engine=${1-"podman"}
 # Container Name
 name=$(cat ./name.txt)
 
+# Options
+# Use --no-cache when e.g. updating docker-entrypoint.sh and images don't get updated as they should
+#opts=""
+opts="--no-cache"
+
 # Base Image
 # "Alpine" or "Debian"
 bases=()
 bases+=("Alpine")
-bases+=("Debian")
+#bases+=("Debian")
 
 # Mandatory Tag
 tag=$(cat ./tag.txt)
@@ -33,11 +38,11 @@ do
     if [[ -n $(command -v podman) ]] && [[ "$engine" == "podman" ]]
     then
         # Use Podman and ./build/ folder to build the image
-        podman build -f $buildfile . -t $name:${base,,}-$tag -t $name:${base,,}-latest
+        podman build $opts -f $buildfile . -t $name:${base,,}-$tag -t $name:${base,,}-latest
     elif [[ -n $(command -v docker) ]] && [[ "$engine" == "docker" ]]
     then
         # Use Docker and ./build/ folder to build the image
-        docker build -f $buildfile . -t $name:${base,,}-$tag -t $name:${base,,}-latest
+        docker build $opts -f $buildfile . -t $name:${base,,}-$tag -t $name:${base,,}-latest
     else
         # Error
         echo "Neither Podman nor Docker could be found and/or the specified Engine <$engine> was not valid. Aborting !"

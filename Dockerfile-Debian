@@ -31,8 +31,13 @@ RUN pip install -r requirements.txt
 EXPOSE 5000
 
 # Copy required Files
-COPY app/* .
-COPY README.md .
+#COPY app/* .
+#COPY README.md .
 
 # Run the Main App
-CMD ["python", "-u", "app.py"]
+#CMD ["python", "-u", "app.py"]
+
+# Copy and Execute Script for Installation and Initialization of App
+COPY docker-entrypoint.sh /opt/
+RUN chmod +x /opt/docker-entrypoint.sh
+ENTRYPOINT ["/opt/docker-entrypoint.sh"]
