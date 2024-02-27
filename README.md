@@ -8,7 +8,7 @@ Please follow the instruction in my other Github Repository in order to rename U
 https://github.com/luckylinux/solar-controller/?tab=readme-ov-file#rename-can-interface-name-and-usb-can-device-name
 
 **IMPORTANT**
-Note: the network device names MUST be **stritcly** (NOT equal to !) under <IFNAMSIZ> characters long. Currently this is set to 16 characters ! Therefore interface names only up to and including 15 characters are supported !
+Note: the network device names MUST be **stritcly** (NOT equal to !) under `IFNAMSIZ`  characters long. Currently this is set to 16 characters ! Therefore interface names only up to and including 15 characters are supported !
 See https://github.com/torvalds/linux/blob/master/include/uapi/linux/if.h
 If you exceed that, you will get an error such as Error: argument "grid-charger-0-container" is wrong: "name" not a valid ifname
 
