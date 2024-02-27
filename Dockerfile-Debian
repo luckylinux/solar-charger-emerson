@@ -1,6 +1,6 @@
 FROM debian:latest
-RUN mkdir /opt/app
-WORKDIR /opt/app
+RUN mkdir /opt/solar-charger-emerson
+WORKDIR /opt/solar-charger-emerson
 COPY requirements.txt requirements.txt
 RUN apt-get update
 RUN apt-get install -y python3 python3-pip python3-venv git
@@ -19,7 +19,7 @@ ENV ENV /etc/profile
 RUN python3 -m venv venv
 
 # Set PATH Variable to include venv
-ENV PATH="/opt/app/venv/bin:$PATH"
+ENV PATH="/opt/solar-charger-emerson/venv/bin:$PATH"
 
 # Activate venv
 #RUN source venv/bin/activate

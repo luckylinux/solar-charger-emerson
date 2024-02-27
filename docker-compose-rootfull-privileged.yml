@@ -5,6 +5,9 @@ services:
     # build: .
     image: localhost/solar-charger-emerson:latest
 
+    # Always pull the image
+    #pull_policy: always
+
     # Define container image
     container_name: solar-charger-emerson
 

@@ -1,6 +1,6 @@
 FROM alpine:latest
-RUN mkdir /opt/app
-WORKDIR /opt/app
+RUN mkdir /opt/solar-charger-emerson
+WORKDIR /opt/solar-charger-emerson
 COPY requirements.txt requirements.txt
 RUN apk update
 RUN apk add python3 py3-pip git
@@ -19,7 +19,7 @@ ENV ENV /etc/profile
 RUN python3 -m venv venv
 
 # Set PATH Variable to include venv
-ENV PATH="/opt/app/venv/bin:$PATH"
+ENV PATH="/opt/solar-charger-emerson/venv/bin:$PATH"
 
 # Activate venv
 #RUN source venv/bin/activate
