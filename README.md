@@ -56,13 +56,30 @@ Running as Root (Rootfull Docker or Rootfull Podman).
 ### Privileged Mode
 :white_check_mark: This works, but has the downside that the entire /dev folder is now accessible by the container.
 
+```
+./build.sh
+podman-compose -f docker-compose-rootfull-privileged.yml up -d
+```
+
 ### Unprivileged Mode
 :x: Not possible to configure Network Interfaces or Network Devices.
+
+```
+./build.sh
+podman-compose -f docker-compose-rootfull-unprivileged.yml up -d
+```
 
 ### Host-Device Mode
 :x: Does not currently work (tested using Podman). Requires the setting `network_backend` in /etc/containers/containers.conf (Podman) to be set to `cni` instead of `netavark` (default).
 
+Probably some similar setting in the case of Docker are also required.
+
 However, using podman-compose, this method tries to bring up an `eth1` Network Interface which doesn't exist !
+
+```
+./build.sh
+podman-compose -f docker-compose-rootfull-host-device.yml up -d
+```
 
 ## Rootless Podman / Docker
 Running as an unprivileged User (Rootless Docker or Rootless Podman).
@@ -84,8 +101,29 @@ The file contents doesn't matter, at least for now.
 ### can using Podman / Docker Namespaces
 :white_check_mark: This is the more "direct" approach. The physical hardware device is "assigned" to the Container. If you run `ip link` as root you will notice that the device names are no longer available. This is because they are exclusively within the Container's Namespace now.
 
+Run as User
+```
+./build.sh
+podman-compose -f docker-compose-rootless-can-or-vxcan.yml up -d
+```
+
+Run as Root (for testing - permanent solution is a Systemd Service / OpenRC Service):
+```
+./bin/reconfigure-can-devices.sh
+```
+
 ### vxcan using Podman / Docker Namespaces
 :white_check_mark: This is a bit more "articulated". The host and the container communicate between each other using a Virtual CAN Adapter (called $device-h for Host and $device-c for Container). Then, the traffic between host virtual device $device-h and the physical device $device is forwarded (bidirectionally) through the setup done using `cangw` (Debian/Ubuntu: part of `can-utils` Package - `sudo apt-get install can-utils`).
+
+```
+./build.sh
+podman-compose -f docker-compose-rootless-can-or-vxcan.yml up -d
+```
+
+Run as Root (for testing - permanent solution is a Systemd Service / OpenRC Service):
+```
+./bin/reconfigure-vxcan-devices.sh
+```
 
 ### vcan using Podman / Docker Namespaces
 :question: Probably not relevant for this use case (multiple virtual adapters accessing the same CAN network is NOT required here). This could however be useful in case of multi-CAN devices or multi-CAN container-to-host communication.
