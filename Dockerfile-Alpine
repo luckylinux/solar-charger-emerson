@@ -3,8 +3,7 @@ RUN mkdir /opt/app
 WORKDIR /opt/app
 COPY requirements.txt requirements.txt
 RUN apk update
-RUN apk add python3 py3-pip 
-#RUN apk add python3-venv
+RUN apk add python3 py3-pip git
 RUN apk add bash iproute2
 #RUN apk add rrdtool
 
