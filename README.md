@@ -71,6 +71,16 @@ The "catch" is that you need to run a script (or a service/daemon) as root to (r
 
 This is because you need to first spin up the container, get its DOCKERPID / PODMANPID, then use that to set the namespace name ("assign the CAN interface to be managed by the container").
 
+To handle the setup (and possibly the configuration within the container) it has been decided to just list the names in the folder:
+```
+mkdir -p /etc/can/adapters.d
+touch /etc/can/adapters.d/can-grid-00
+touch /etc/can/adapters.d/can-grid-01
+...
+```
+
+The file contents doesn't matter, at least for now.
+
 ### can using Podman / Docker Namespaces
 :white_check_mark: This is the more "direct" approach. The physical hardware device is "assigned" to the Container. If you run `ip link` as root you will notice that the device names are no longer available. This is because they are exclusively within the Container's Namespace now.
 
