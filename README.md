@@ -25,3 +25,17 @@ ip link set up grid-charger-0
 ```
 
 4. If your CAN USB Adapter has some LED lights, they should all turn on now
+
+# What Works
+Running as Root (Root Docker or Root Podman).
+
+The CAN adapter can be brought up.
+
+Debian-based Image (`Dockerfile-Debian`) and Alpine-based Images (`Dockerfile-Alpine`) both seem to work.
+
+# Next Steps
+Try to implement some of the other strategies outlined in https://github.com/luckylinux/solar-controller/?tab=readme-ov-file#use-canbus-within-docker-image.
+
+The ideal goal would be to run without needing root access.
+
+In particular, the vxcan tool seem to be promising: https://www.lagerdata.com/articles/forwarding-can-bus-traffic-to-a-docker-container-using-vxcan-on-raspberry-pi.

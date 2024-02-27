@@ -7,7 +7,8 @@ name=$(cat ./name.txt)
 tag=$(cat ./tag.txt)
 
 # Select Dockerfile
-buildfile="Dockerfile-Debian"
+#buildfile="Dockerfile-Debian" # Works
+buildfile="Dockerfile-Alpine"
 
 # Check if they are set
 if [[ ! -v name ]] || [[ ! -v tag ]]
