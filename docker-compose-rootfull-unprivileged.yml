@@ -44,9 +44,11 @@ services:
 
     # Set any environmental variables
     environment:
+       - APP_GIT_REPOSITORY=https://github.com/luckylinux/solar-charger-emerson.git
        - APP_GIT_BRANCH=main
        - APP_GIT_TAG=
        - APP_GIT_COMMIT=
+       - LOG_LEVEL=DEBUG
 
     # Specify your user ID and group ID. You can find this by running `id -u` and `id -g`
     #  - UID=1000

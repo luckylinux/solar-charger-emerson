@@ -1,7 +1,17 @@
+# Gracefully Shut Down Application
 import signal
-import time
+
+# Flask Framework
 from flask import Flask
 
+# Logging Tools
+from loguru import logger
+
+# Emerson Charger Library
+from lib import rectifier
+
+# Core Libraries
+import time
 
 # Handle SIGINT and SIGTERM Gracefully within Docker/Podman Containers
 # Source: https://stackoverflow.com/a/31464349/2591014
@@ -36,10 +46,15 @@ if __name__ == "__main__":
     # Init GracefulKiller
     killer = GracefulKiller()
 
+    # Configure Logging - Defaults to WARNING
+    logLevel = os.getenv('LOG_LEVEL' , 'WARNING')
+
+
     # Run the Flask application
     app.run(host="0.0.0.0", port=5000)
 
     # Infinite loop to prevent the application / Docker container from quitting
+    # Exit Application in case of SIGINT or SIGTERM
     while not killer.kill_now:
-        # Wait 1 second
-        time.sleep(1.0)
+        # Wait 5 seconds
+        time.sleep(5.0)

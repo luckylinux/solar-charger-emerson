@@ -9,6 +9,9 @@ Werkzeug==2.3.6
 python-can
 pandas
 openpyxl
-paho-mqtt
-tabulate
-panel
+#paho-mqtt
+#tabulate
+#panel
+
+loguru # Logging
+pyyaml # Read YAML Configuration Files
