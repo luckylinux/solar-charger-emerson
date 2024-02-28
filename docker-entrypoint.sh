@@ -4,7 +4,14 @@
 cd /opt/solar-charger-emerson
 
 # Set origin
-origin="https://github.com/luckylinux/solar-charger-emerson.git"
+if [[ -n "${APP_GIT_REPOSITORY}" ]]
+then
+   # Use the Git Repository specified
+   origin="${APP_GIT_REPOSITORY}"
+else
+   # Use the default Git Repository
+   origin="https://github.com/luckylinux/solar-charger-emerson.git"
+fi
 
 # Select Upstream Branch
 if [[ -n "${APP_GIT_BRANCH}" ]]
