@@ -120,7 +120,7 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
+#.env # Needs to be uploaded !
 .venv
 env/
 venv/
