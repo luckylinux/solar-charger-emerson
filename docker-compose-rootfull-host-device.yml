@@ -76,6 +76,7 @@ services:
        - APP_GIT_TAG=
        - APP_GIT_COMMIT=
        - LOG_LEVEL=DEBUG
+       - ENABLE_DEBUG_LOOP=0 # 1 = Enable debug loop BEFORE entering the Python app, in order to debug setup / git clone related issues
 
     # Specify your user ID and group ID. You can find this by running `id -u` and `id -g`
     #  - UID=1000

@@ -66,10 +66,16 @@ else
 fi
 
 # Infinite loop to debug
-while true
-do
-    sleep 5
-done
+if [[ -v ENABLE_DEBUG_LOOP ]]
+then
+   if [[ "$ENABLE_DEBUG_LOOP" -eq "1" ]]
+   then
+       while true
+       do
+          sleep 5
+       done
+   fi
+fi
 
 # Launch App
 python -u app/app.py
