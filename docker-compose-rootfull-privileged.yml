@@ -18,7 +18,7 @@ services:
     # Volume mounts
     volumes:
       # Configuration Files
-      - ./config/battery-charger.yml:/opt/app/conf/battery-charger.yml:ro
+      - ./config/chargers.yml:/opt/app/conf/battery-charger.yml:ro
 
       # CAN USB Adapters mounted as volumes
       # NOT WORKING
