@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Change to app folder
-cd /opt/solar-charger-emerson
+cd /opt/app
 
 # Set origin
 if [[ -n "${APP_GIT_REPOSITORY}" ]]
@@ -10,7 +10,7 @@ then
    origin="${APP_GIT_REPOSITORY}"
 else
    # Use the default Git Repository
-   origin="https://github.com/luckylinux/solar-charger-emerson.git"
+   origin="${APP_GIT_REPOSITORY_DEFAULT}"
 fi
 
 # Select Upstream Branch
