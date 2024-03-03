@@ -7,7 +7,7 @@ settings:
     - output_current_amperes
       - min: 5
       - max: 50
-      
+
 ratings:
   defaults:
     - output_voltage
@@ -47,6 +47,7 @@ chargers:
     type: Grid
     interface_type: can
     interface_name: can-grid-01
+    mqtt_topic: charger-emerson-can-grid-01/
     settings:
     #  - output_voltage
     #    - min
@@ -65,10 +66,11 @@ chargers:
     #labels:
     #  - ...
     #  - ...
-    description: 
+    description:
     type: Generator
     interface_type: can
     interface_name: can-gen-01
+    mqtt_topic: charger-emerson-can-gen-01/
     settings:
     #  - output_voltage
     #    - min
