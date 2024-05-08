@@ -8,14 +8,14 @@ name=$(cat ./name.txt)
 
 # Options
 # Use --no-cache when e.g. updating docker-entrypoint.sh and images don't get updated as they should
-#opts=""
-opts="--no-cache"
+opts=""
+#opts="--no-cache"
 
 # Base Image
 # "Alpine" or "Debian"
 bases=()
 bases+=("Alpine")
-#bases+=("Debian")
+bases+=("Debian")
 
 # Mandatory Tag
 tag=$(cat ./tag.txt)

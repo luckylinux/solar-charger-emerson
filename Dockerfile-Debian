@@ -1,11 +1,37 @@
 FROM debian:latest
-RUN mkdir /opt/app
-WORKDIR /opt/app
-COPY requirements.txt requirements.txt
-RUN apt-get update
-RUN apt-get install -y python3 python3-pip python3-venv git
-RUN apt-get install -y bash iproute2
-#RUN apt-get install rrdtool
+
+# App Path
+ARG APP_PATH="/opt/app"
+
+# Define venv Path
+ARG VENV_PATH="/opt/venv"
+
+# Create Directory for App
+RUN mkdir -p "${APP_PATH}"
+
+# Copy Sources
+COPY app/ "${APP_PATH}"
+
+# Copy other Files
+COPY README.md "${APP_PATH}"
+
+# Change Directory
+WORKDIR "${APP_PATH}"
+
+# Update Sources
+# Install required Packages
+# Added --no-install-recommends in order to minimize Container Image Size
+RUN --mount=type=cache,mode=0777,target=/var/cache/apt,sharing=locked \
+    --mount=type=cache,mode=0777,target=/var/lib/apt,sharing=locked \
+    apt-get update && \
+    apt-get install -y --no-install-recommends python3 python3-pip python3-venv git && \
+    apt-get install -y --no-install-recommends bash iproute2
+
+# Not Currently Enabled Packages
+#RUN --mount=type=cache,mode=0777,target=/var/cache/apt,sharing=locked \
+#    --mount=type=cache,mode=0777,target=/var/lib/apt,sharing=locked \
+#    apt-get update && \
+#    apt-get install rrdtool
 
 # Change Shell
 RUN chsh -s /bin/bash root
@@ -16,23 +42,21 @@ RUN ln -sf /bin/bash /bin/sh
 ENV ENV /etc/profile
 
 # Create venv
-RUN python3 -m venv venv
+RUN python3 -m venv "${VENV_PATH}"
 
 # Set PATH Variable to include venv
-ENV PATH="/opt/app/venv/bin:$PATH"
+ENV PATH="${VENV_PATH}/bin:$PATH"
 
 # Activate venv
-#RUN source venv/bin/activate
+RUN source "${VENV_PATH}/bin/activate"
+#RUN sh -c ". ${VENV_PATH}/bin/activate"
 
 # Install required Packages
-RUN pip install -r requirements.txt
+RUN --mount=type=cache,mode=0777,target=/var/lib/pip,sharing=locked \
+    pip install --cache-dir /var/lib/pip -r "${APP_PATH}/requirements.txt"
 
 # Export Web Port
 EXPOSE 5000
-
-# Copy required Files
-#COPY app/* .
-#COPY README.md .
 
 # Run the Main App
 #CMD ["python", "-u", "app.py"]
